@@ -1,3 +1,6 @@
+// src/data/products.js
+
+// ====== Продукты ======
 export const productData = [
   {
     id: 1,
@@ -73,6 +76,7 @@ export const productData = [
   },
 ];
 
+// ====== Теги ======
 export const tags = [
   { id: 1, href: "#", name: "Courses" },
   { id: 2, href: "#", name: "Learn" },
@@ -82,12 +86,15 @@ export const tags = [
   { id: 6, href: "#", name: "Training" },
 ];
 
+// ====== Категории ======
 export const categories = [
   { id: 1, href: "#", name: "Gym" },
   { id: 2, href: "#", name: "High School" },
   { id: 3, href: "#", name: "Primary" },
   { id: 4, href: "#", name: "School" },
   { id: 5, href: "#", name: "University" },
-  { id: 5, href: "#", name: "University" },
-  { id: 5, href: "#", name: "College" },
+  { id: 6, href: "#", name: "College" },
 ];
+
+// ====== DEFAULT EXPORT (для Context.jsx) ======
+export default productData;

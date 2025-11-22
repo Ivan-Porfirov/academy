@@ -1,16 +1,20 @@
-import React, { useEffect, useState } from "react";
+// src/components/homes/courses/CoursesSlider.jsx
 
-import CourceCardSlider from "../courseCards/CourseCardSlider";
-import { coursesData } from "@/data/courses";
+import { useEffect, useState } from "react";
+
+import { courses } from "@/data/courses"; // ← фикс
+import { Link } from "react-router-dom";
 import { Navigation, Pagination } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Link } from "react-router-dom";
+import CourceCardSlider from "../courseCards/CourseCardSlider";
 
 export default function CoursesSlider() {
   const [showSlider, setShowSlider] = useState(false);
+
   useEffect(() => {
     setShowSlider(true);
   }, []);
+
   return (
     <section className="layout-pt-lg layout-pb-lg section-bg">
       <div className="section-bg__item bg-light-6"></div>
@@ -18,10 +22,9 @@ export default function CoursesSlider() {
       <div className="container">
         <div className="row y-gap-15 justify-between items-center">
           <div className="col-lg-6">
-            <div className="sectionTitle ">
-              <h2 className="sectionTitle__title ">Top courses</h2>
-
-              <p className="sectionTitle__text ">
+            <div className="sectionTitle">
+              <h2 className="sectionTitle__title">Top courses</h2>
+              <p className="sectionTitle__text">
                 10,000+ unique online course list designs
               </p>
             </div>
@@ -31,7 +34,7 @@ export default function CoursesSlider() {
             <div className="d-inline-block">
               <Link
                 to="/courses-list-1"
-                className="button -icon -light-11 -purple-3 text-purple-1 "
+                className="button -icon -light-11 -purple-3 text-purple-1"
               >
                 All Courses
                 <i className="icon-arrow-top-right text-13 ml-10"></i>
@@ -50,32 +53,21 @@ export default function CoursesSlider() {
             <div className="swiper-wrapper">
               {showSlider && (
                 <Swiper
-                  // {...setting}
                   modules={[Navigation, Pagination]}
                   navigation={{
                     nextEl: ".icon-arrow-right",
                     prevEl: ".icon-arrow-left",
                   }}
-                  // loop={true}
                   spaceBetween={30}
                   slidesPerView={1}
                   loop={true}
                   breakpoints={{
-                    // when window width is >= 576px
-                    450: {
-                      slidesPerView: 2,
-                    },
-                    // when window width is >= 768px
-                    768: {
-                      slidesPerView: 3,
-                    },
-                    1200: {
-                      // when window width is >= 992px
-                      slidesPerView: 4,
-                    },
+                    450: { slidesPerView: 2 },
+                    768: { slidesPerView: 3 },
+                    1200: { slidesPerView: 4 },
                   }}
                 >
-                  {coursesData.slice(0, 12).map((elm, i) => (
+                  {courses.slice(0, 12).map((elm, i) => (
                     <SwiperSlide key={i}>
                       <CourceCardSlider data={elm} index={i} />
                     </SwiperSlide>

@@ -1,25 +1,27 @@
-import React from "react";
-import { coursesData } from "../../../data/courses";
-import CourceCard from "../courseCards/CourseCard";
-import { useState, useEffect } from "react";
-import { viewStatus } from "../../../data/courses";
+import { useEffect, useState } from "react";
+
+import { courses as coursesData, viewStatus } from "@/data/courses";
 import { Link } from "react-router-dom";
+import CourceCard from "../courseCards/CourseCard";
+
 export default function CoursesTwo() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [currentCourseState, setCurrentCourseState] = useState("All");
   const [pageItem, setPageItem] = useState([]);
+
   useEffect(() => {
     setDropdownOpen(false);
 
-    if (currentCourseState == "All") {
+    if (currentCourseState === "All") {
       setPageItem(coursesData);
     } else {
       const filtered = coursesData.filter(
-        (elm) => elm.viewStatus == currentCourseState,
+        (elm) => elm.viewStatus === currentCourseState
       );
       setPageItem(filtered);
     }
   }, [currentCourseState]);
+
   return (
     <section className="layout-pt-lg layout-pb-lg">
       <div className="container">
@@ -27,7 +29,6 @@ export default function CoursesTwo() {
           <div className="col-lg-6">
             <div className="sectionTitle ">
               <h2 className="sectionTitle__title ">Recent courses</h2>
-
               <p className="sectionTitle__text ">
                 10,000+ unique online course list designs
               </p>
@@ -45,22 +46,22 @@ export default function CoursesTwo() {
                   onClick={() => setDropdownOpen((pre) => !pre)}
                   className="dropdown__button d-flex items-center text-14 rounded-8 px-15 py-10 text-dark-1"
                 >
-                  <span className="js-dropdown-title">Popular Most Viwed</span>
+                  <span className="js-dropdown-title">Popular Most Viewed</span>
                   <i className="icon text-9 ml-40 icon-chevron-down"></i>
                 </div>
 
                 <div
                   className={`toggle-element -dropdown -dark-bg-dark-2 -dark-border-white-10 js-click-dropdown js-category-toggle ${
                     dropdownOpen ? "-is-el-visible" : ""
-                  } `}
+                  }`}
                 >
                   <div className="text-14 y-gap-15 js-dropdown-list">
                     {viewStatus.map((elm, i) => (
                       <div
                         key={i}
                         className={`d-block js-dropdown-link cursor ${
-                          currentCourseState == elm ? "activeMenu" : ""
-                        } `}
+                          currentCourseState === elm ? "activeMenu" : ""
+                        }`}
                         onClick={() => setCurrentCourseState(elm)}
                       >
                         {elm}

@@ -1,80 +1,149 @@
-import { coursesData } from "@/data/courses";
+import { createContext, useContext, useEffect, useState } from "react";
+
+// ---- ИМЕНОВАННЫЕ ЭКСПОРТЫ ----
+import { courses } from "@/data/courses";
 import { events } from "@/data/events";
-import { productData } from "@/data/products";
-import React from "react";
-import { useContext, useState } from "react";
-const dataContext = React.createContext();
-export const useContextElement = () => {
-  return useContext(dataContext);
+import products from "@/data/products"; // этот файл имеет export default
+
+export const AppContext = createContext();
+
+export const AppProvider = ({ children }) => {
+  // -----------------------------
+  // CART STATES
+  // -----------------------------
+  const [cartItemsCourses, setCartItemsCourses] = useState([]);
+  const [cartItemsProducts, setCartItemsProducts] = useState([]);
+  const [cartItemsEvents, setCartItemsEvents] = useState([]);
+
+  // -----------------------------
+  // LOAD FROM LOCAL STORAGE
+  // -----------------------------
+  useEffect(() => {
+    setCartItemsCourses(JSON.parse(localStorage.getItem("cartCourses")) || []);
+    setCartItemsProducts(JSON.parse(localStorage.getItem("cartProducts")) || []);
+    setCartItemsEvents(JSON.parse(localStorage.getItem("cartEvents")) || []);
+  }, []);
+
+  // -----------------------------
+  // SAVE TO LOCAL STORAGE
+  // -----------------------------
+  useEffect(() => {
+    localStorage.setItem("cartCourses", JSON.stringify(cartItemsCourses));
+  }, [cartItemsCourses]);
+
+  useEffect(() => {
+    localStorage.setItem("cartProducts", JSON.stringify(cartItemsProducts));
+  }, [cartItemsProducts]);
+
+  useEffect(() => {
+    localStorage.setItem("cartEvents", JSON.stringify(cartItemsEvents));
+  }, [cartItemsEvents]);
+
+  // -----------------------------
+  // ADD COURSE
+  // -----------------------------
+  const addToCartCourses = (courseId) => {
+    const course = courses.find((c) => c.id === courseId);
+    if (!course) return;
+    if (!cartItemsCourses.some((c) => c.id === courseId)) {
+      setCartItemsCourses([...cartItemsCourses, course]);
+    }
+  };
+
+  // REMOVE COURSE
+  const removeFromCartCourses = (courseId) => {
+    setCartItemsCourses(cartItemsCourses.filter((c) => c.id !== courseId));
+  };
+
+  const isAddedToCartCourses = (courseId) =>
+    cartItemsCourses.some((c) => c.id === courseId);
+
+  // -----------------------------
+  // ADD PRODUCT
+  // -----------------------------
+  const addToCartProducts = (productId) => {
+    const product = products.find((p) => p.id === productId);
+    if (!product) return;
+
+    if (!cartItemsProducts.some((p) => p.id === productId)) {
+      setCartItemsProducts([...cartItemsProducts, product]);
+    }
+  };
+
+  const removeFromCartProducts = (productId) => {
+    setCartItemsProducts(cartItemsProducts.filter((p) => p.id !== productId));
+  };
+
+  const isAddedToCartProducts = (productId) =>
+    cartItemsProducts.some((p) => p.id === productId);
+
+  // -----------------------------
+  // ADD EVENT
+  // -----------------------------
+  const addToCartEvents = (eventId) => {
+    const event = events.find((e) => e.id === eventId);
+    if (!event) return;
+
+    if (!cartItemsEvents.some((e) => e.id === eventId)) {
+      setCartItemsEvents([...cartItemsEvents, event]);
+    }
+  };
+
+  const removeFromCartEvents = (eventId) => {
+    setCartItemsEvents(cartItemsEvents.filter((e) => e.id !== eventId));
+  };
+
+  const isAddedToCartEvents = (eventId) =>
+    cartItemsEvents.some((e) => e.id === eventId);
+
+  return (
+    <AppContext.Provider
+      value={{
+        cartItemsCourses,
+        cartItemsProducts,
+        cartItemsEvents,
+
+        addToCartCourses,
+        addToCartProducts,
+        addToCartEvents,
+
+        removeFromCartCourses,
+        removeFromCartProducts,
+        removeFromCartEvents,
+
+        isAddedToCartCourses,
+        isAddedToCartProducts,
+        isAddedToCartEvents,
+      }}
+    >
+      {children}
+    </AppContext.Provider>
+  );
 };
 
-export default function Context({ children }) {
-  const [cartProducts, setCartProducts] = useState([]);
+// -----------------------------
+// HOOKS
+// -----------------------------
+export const useContextElement = () => useContext(AppContext);
 
-  const [cartCourses, setCartCourses] = useState([]);
-  const [cartEvents, setCartEvents] = useState([]);
-  const addCourseToCart = (id) => {
-    if (!cartCourses.filter((elm) => elm.id == id)[0]) {
-      const item = {
-        ...coursesData.filter((elm) => elm.id == id)[0],
-        quantity: 1,
-      };
-      setCartCourses((pre) => [...pre, item]);
-    }
-  };
-  const isAddedToCartCourses = (id) => {
-    if (cartCourses.filter((elm) => elm.id == id)[0]) {
-      return true;
-    }
-    return false;
-  };
-  const addProductToCart = (id) => {
-    if (!cartProducts.filter((elm) => elm.id == id)[0]) {
-      const item = {
-        ...productData.filter((elm) => elm.id == id)[0],
-        quantity: 1,
-      };
-      setCartProducts((pre) => [...pre, item]);
-    }
-  };
-  const isAddedToCartProducts = (id) => {
-    if (cartProducts.filter((elm) => elm.id == id)[0]) {
-      return true;
-    }
-    return false;
-  };
-  const addEventToCart = (id) => {
-    if (!cartEvents.filter((elm) => elm.id == id)[0]) {
-      const item = { ...events.filter((elm) => elm.id == id)[0], quantity: 1 };
-      setCartEvents((pre) => [...pre, item]);
-    }
-  };
-  const isAddedToCartEvents = (id) => {
-    if (cartEvents.filter((elm) => elm.id == id)[0]) {
-      return true;
-    }
-    return false;
-  };
+export const useCartContext = () => {
+  const ctx = useContext(AppContext);
 
-  const contextElement = {
-    cartProducts,
-    setCartProducts,
-    addProductToCart,
-    isAddedToCartProducts,
+  return {
+    cartItemsCourses: ctx.cartItemsCourses,
+    cartItemsProducts: ctx.cartItemsProducts,
+    cartItemsEvents: ctx.cartItemsEvents,
 
-    addCourseToCart,
-    isAddedToCartCourses,
-    cartCourses,
-    setCartCourses,
+    addToCartCourses: ctx.addToCartCourses,
+    addToCartProducts: ctx.addToCartProducts,
+    addToCartEvents: ctx.addToCartEvents,
 
-    cartEvents,
-    setCartEvents,
-    addEventToCart,
-    isAddedToCartEvents,
+    removeFromCartCourses: ctx.removeFromCartCourses,
+    removeFromCartProducts: ctx.removeFromCartProducts,
+    removeFromCartEvents: ctx.removeFromCartEvents,
+
+    isAddedToCartCourses: ctx.isAddedToCartCourses,
+    isAddedToCartProducts: ctx.isAddedToCartProducts,
+    isAddedToCartEvents: ctx.isAddedToCartEvents,
   };
-  return (
-    <dataContext.Provider value={contextElement}>
-      {children}
-    </dataContext.Provider>
-  );
-}
+};
