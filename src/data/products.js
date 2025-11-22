@@ -1,100 +1,96 @@
-// src/data/products.js
+// -----------------------------------------------------
+// PRODUCTS MAIN DATA
+// -----------------------------------------------------
 
-// ====== Продукты ======
 export const productData = [
   {
     id: 1,
+    name: "Smart Watch",
+    price: 299.0,
     image: "/assets/img/shop/products/1.png",
-    categories: ["Clothing", "Glasses", "T-Shirts"],
-    name: "Wall Clock Brown",
-    price: 500,
-    preDiscount: 678,
+    categories: ["Electronics", "Gadgets"],
+    tags: ["Smart", "Tech"],
+    desc: "High-quality smart watch with multiple features.",
   },
   {
     id: 2,
+    name: "Wireless Headphones",
+    price: 149.0,
     image: "/assets/img/shop/products/2.png",
-    categories: ["Clothing", "Glasses", "T-Shirts"],
-    name: "Wall Clock Brown",
-    price: 1000,
-    preDiscount: 1200,
+    categories: ["Audio", "Accessories"],
+    tags: ["Wireless", "Bluetooth"],
+    desc: "Noise-cancelling wireless headphones.",
   },
   {
     id: 3,
+    name: "Leather Backpack",
+    price: 199.0,
     image: "/assets/img/shop/products/3.png",
-    categories: ["Clothing", "Glasses", "T-Shirts"],
-    name: "Wall Clock Brown",
-    price: 750,
-    preDiscount: 800,
+    categories: ["Fashion", "Bags"],
+    tags: ["Travel", "Leather"],
+    desc: "Premium handmade leather backpack.",
   },
   {
     id: 4,
+    name: "DSLR Camera Lens",
+    price: 699.0,
     image: "/assets/img/shop/products/4.png",
-    categories: ["Clothing", "Glasses", "T-Shirts"],
-    name: "Wall Clock Brown",
-    price: 200,
-    preDiscount: 300,
+    categories: ["Photo", "Electronics"],
+    tags: ["Photography", "Pro"],
+    desc: "Professional lens for DSLR cameras.",
   },
   {
     id: 5,
+    name: "Yoga Mat Premium",
+    price: 79.0,
     image: "/assets/img/shop/products/5.png",
-    categories: ["Clothing", "Glasses", "T-Shirts"],
-    name: "Wall Clock Brown",
-    price: 1800,
-    preDiscount: 2300,
+    categories: ["Fitness", "Lifestyle"],
+    tags: ["Wellness", "Sport"],
+    desc: "Non-slip eco-friendly premium yoga mat.",
   },
   {
     id: 6,
+    name: "Gaming Mouse",
+    price: 59.0,
     image: "/assets/img/shop/products/6.png",
-    categories: ["Clothing", "Glasses", "T-Shirts"],
-    name: "Wall Clock Brown",
-    price: 950,
-    preDiscount: 1200,
-  },
-  {
-    id: 7,
-    image: "/assets/img/shop/products/7.png",
-    categories: ["Clothing", "Glasses", "T-Shirts"],
-    name: "Wall Clock Brown",
-    price: 1300,
-    preDiscount: 1600,
-  },
-  {
-    id: 8,
-    image: "/assets/img/shop/products/8.png",
-    categories: ["Clothing", "Glasses", "T-Shirts"],
-    name: "Wall Clock Brown",
-    price: 2000,
-    preDiscount: 1400,
-  },
-  {
-    id: 9,
-    image: "/assets/img/shop/products/9.png",
-    categories: ["Clothing", "Glasses", "T-Shirts"],
-    name: "Wall Clock Brown",
-    price: 400,
-    preDiscount: 590,
+    categories: ["Gaming", "Electronics"],
+    tags: ["RGB", "Mouse"],
+    desc: "Ergonomic gaming mouse with RGB lighting.",
   },
 ];
 
-// ====== Теги ======
-export const tags = [
-  { id: 1, href: "#", name: "Courses" },
-  { id: 2, href: "#", name: "Learn" },
-  { id: 3, href: "#", name: "Online" },
-  { id: 4, href: "#", name: "Education" },
-  { id: 5, href: "#", name: "LMS" },
-  { id: 6, href: "#", name: "Training" },
-];
+// -----------------------------------------------------
+// CATEGORIES USED IN SHOP CATEGORY SIDEBAR
+// -----------------------------------------------------
 
-// ====== Категории ======
 export const categories = [
-  { id: 1, href: "#", name: "Gym" },
-  { id: 2, href: "#", name: "High School" },
-  { id: 3, href: "#", name: "Primary" },
-  { id: 4, href: "#", name: "School" },
-  { id: 5, href: "#", name: "University" },
-  { id: 6, href: "#", name: "College" },
+  { id: 1, name: "All Products", href: "#" },
+  { id: 2, name: "Electronics", href: "#" },
+  { id: 3, name: "Gadgets", href: "#" },
+  { id: 4, name: "Audio", href: "#" },
+  { id: 5, name: "Accessories", href: "#" },
+  { id: 6, name: "Fashion", href: "#" },
+  { id: 7, name: "Bags", href: "#" },
+  { id: 8, name: "Fitness", href: "#" },
+  { id: 9, name: "Lifestyle", href: "#" },
+  { id: 10, name: "Gaming", href: "#" },
 ];
 
-// ====== DEFAULT EXPORT (для Context.jsx) ======
-export default productData;
+// -----------------------------------------------------
+// TAGS — used in sidebar
+// -----------------------------------------------------
+
+export const tags = [
+  { id: 1, name: "Tech", href: "#" },
+  { id: 2, name: "Smart", href: "#" },
+  { id: 3, name: "Fashion", href: "#" },
+  { id: 4, name: "Trending", href: "#" },
+  { id: 5, name: "New", href: "#" },
+];
+
+// -----------------------------------------------------
+// GET PRODUCT BY ID — for product details page
+// -----------------------------------------------------
+
+export const getProductById = (id) =>
+  productData.find((p) => Number(p.id) === Number(id));
