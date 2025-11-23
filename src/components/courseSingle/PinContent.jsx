@@ -1,23 +1,17 @@
-import React, { useState, useEffect } from "react";
 import { useContextElement } from "@/context/Context";
+import { useEffect, useState } from "react";
 import ModalVideoComponent from "../common/ModalVideo";
 
 export default function PinContent({ pageItem }) {
-  const { isAddedToCartCourses, addCourseToCart } = useContextElement();
+  const { isAddedToCartCourses, addToCartCourses } = useContextElement();
   const [isOpen, setIsOpen] = useState(false);
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
-  // useEffect hook to update the screen width when the window is resized
-  useEffect(() => {
-    const handleResize = () => {
-      setScreenWidth(window.innerWidth);
-    };
 
+  useEffect(() => {
+    const handleResize = () => setScreenWidth(window.innerWidth);
     window.addEventListener("resize", handleResize);
 
-    // Cleanup the event listener when the component is unmounted
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   return (
@@ -37,6 +31,7 @@ export default function PinContent({ pageItem }) {
         >
           <div className="relative">
             <img className="w-1/1" src={pageItem.imageSrc} alt="image" />
+
             <div className="absolute-full-center d-flex justify-center items-center">
               <div
                 onClick={() => setIsOpen(true)}
@@ -67,14 +62,16 @@ export default function PinContent({ pageItem }) {
               )}
             </div>
 
+            {/* --- FIXED BUTTON LOGIC HERE --- */}
             <button
               className="button -md -purple-1 text-white w-1/1"
-              onClick={() => addCourseToCart(pageItem.id)}
+              onClick={() => addToCartCourses(pageItem.id)}
             >
               {isAddedToCartCourses(pageItem.id)
                 ? "Already Added"
                 : "Add To Cart"}
             </button>
+
             <button className="button -md -outline-dark-1 text-dark-1 w-1/1 mt-10">
               Buy Now
             </button>
@@ -142,39 +139,25 @@ export default function PinContent({ pageItem }) {
             </div>
 
             <div className="d-flex justify-center pt-15">
-              <a
-                href="#"
-                className="d-flex justify-center items-center size-40 rounded-full"
-              >
+              <a className="d-flex justify-center items-center size-40 rounded-full">
                 <i className="fa fa-facebook"></i>
               </a>
-
-              <a
-                href="#"
-                className="d-flex justify-center items-center size-40 rounded-full"
-              >
+              <a className="d-flex justify-center items-center size-40 rounded-full">
                 <i className="fa fa-twitter"></i>
               </a>
-
-              <a
-                href="#"
-                className="d-flex justify-center items-center size-40 rounded-full"
-              >
+              <a className="d-flex justify-center items-center size-40 rounded-full">
                 <i className="fa fa-instagram"></i>
               </a>
-
-              <a
-                href="#"
-                className="d-flex justify-center items-center size-40 rounded-full"
-              >
+              <a className="d-flex justify-center items-center size-40 rounded-full">
                 <i className="fa fa-linkedin"></i>
               </a>
             </div>
           </div>
         </div>
       </div>
+
       <ModalVideoComponent
-        videoId={"LlCwHnp3kL4"}
+        videoId="LlCwHnp3kL4"
         isOpen={isOpen}
         setIsOpen={setIsOpen}
       />
